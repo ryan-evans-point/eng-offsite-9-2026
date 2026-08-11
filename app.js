@@ -665,7 +665,11 @@ async function save() {
     const ok = await post(Object.assign({ action: "save", activity: target }, person));
     if (!ok) { toast("Couldn't save — check your connection and try again."); return; }
     render();
-    toast("You're on " + byId(target).title + ".");
+    /* say so out loud when there's no backend, otherwise a stale cached
+       copy of this file looks exactly like a successful save */
+    toast(hasBackend
+        ? "You're on " + byId(target).title + "."
+        : "Local preview only — nothing was saved to the sheet.");
     $("card-" + target).scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
@@ -687,7 +691,9 @@ async function leave() {
     const ok = await post({ action: "leave", key: key, name: name || null });
     render();
     if (!ok) { toast("Couldn't reach the sheet — your name may still be on it."); return; }
-    toast("Name removed. Pick another whenever.");
+    toast(hasBackend
+        ? "Name removed. Pick another whenever."
+        : "Local preview only — nothing was saved to the sheet.");
 }
 
 /* ---------------- boot ---------------- */
