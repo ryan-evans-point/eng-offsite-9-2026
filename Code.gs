@@ -39,6 +39,19 @@ function setup() {
     sh.setColumnWidth(7, 340);
 }
 
+/* Run this from the editor (Run > whichSheet) when rows seem to be
+   going nowhere. It prints the spreadsheet this script is actually
+   bound to, which is not always the one you have open. */
+function whichSheet() {
+    const ss = SpreadsheetApp.getActive();
+    const tabs = ss.getSheets().map(s => s.getName() + " (" + s.getLastRow() + " rows)");
+    Logger.log("Spreadsheet: %s", ss.getName());
+    Logger.log("URL:         %s", ss.getUrl());
+    Logger.log("Tabs:        %s", tabs.join(", "));
+    Logger.log("Reading tab: %s", TAB);
+    Logger.log("Roster now:  %s", JSON.stringify(roster_()));
+}
+
 /* ---------------- helpers ---------------- */
 function sheet_() {
     const sh = SpreadsheetApp.getActive().getSheetByName(TAB);
