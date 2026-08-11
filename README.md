@@ -40,7 +40,12 @@ The Google side takes about five minutes and is all clicking. There is no
 OAuth flow, no API key, and no service-account JSON. Nothing secret goes in
 this repo.
 
-1. Create a Google Sheet in your account. Name it whatever you like.
+> **Use a personal Google account, not your point.com one.** Point's Workspace
+> blocks public Apps Script deployments, so the `Anyone` access level we need
+> is missing from the dropdown on a point.com account. See "Gotchas" below.
+
+1. Create a Google Sheet in a personal Google account. Name it whatever you
+   like.
 2. **Extensions > Apps Script.** Delete the placeholder, paste all of
    `Code.gs`, save.
 3. **Run > setup.** This creates the `signups` tab, the header row, the
@@ -82,6 +87,28 @@ Everything readable lives in `app.js`:
 - `HEADCOUNT` — the denominator on the RSVP counter.
 
 ## Gotchas
+
+**The script cannot live in a point.com account.** The `Who has access:
+Anyone` option only appears if the Workspace admin has enabled Drive and Docs
+> Sharing settings > sharing outside the domain, plus "Allow users to publish
+files on the web". Point has this off, which is reasonable for a fintech, so
+the option simply is not in the dropdown.
+
+Two ways this bites you:
+
+- A deployment restricted to the domain produces a URL containing
+  `/a/macros/point.com/`, and it redirects anonymous visitors to a Google
+  login page. The page would then silently show an empty roster forever,
+  because `fetch` receives a login page instead of JSON.
+- `Execute as: Me` does **not** rescue this. That setting controls whose
+  permissions the code runs with; `Who has access` controls who may invoke the
+  web app at all. Google checks the caller at the door, before your code runs,
+  so there is nothing to "pass through" your account.
+
+Also note that Apps Script caches the domain sharing policy at the moment the
+script project is created. If that setting were ever enabled later, an
+existing script would keep hiding the option and you would need a brand-new
+script project.
 
 **Redeploying the script.** Editing `Code.gs` in the Apps Script editor does
 nothing on its own. Changes only go live via **Deploy > Manage deployments >**

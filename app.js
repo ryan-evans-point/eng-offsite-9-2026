@@ -183,7 +183,7 @@ const HEADCOUNT = 50;
 const DEADLINE = "Fri 25 Sept";
 /* the Apps Script /exec URL from Code.gs. Empty runs the page
    local-only, which is handy for editing copy offline. */
-const ENDPOINT = "";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbw-xIaO2vEHdPlXXRiR0CSQC2tDffqPqKHm3jhF8PU7o94JBs8HOze5RW7gtBXmq0_s/exec";
 const ME_KEY = "aptos-offsite-me-v1";
 const SESSION_ID = "a:" + Math.random().toString(36).slice(2, 10);
 
