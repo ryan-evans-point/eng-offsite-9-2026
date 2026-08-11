@@ -27,16 +27,40 @@ function setup() {
     sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight("bold");
     sh.setFrozenRows(1);
 
-    /* dropdown and checkboxes so hand-edits can't produce a value
-       the page won't recognise */
+    /* dropdown so hand-edits can't produce an activity the page ignores.
+       Deliberately no insertCheckboxes() on can_lead: that writes FALSE
+       into all 1000 default rows, which makes getLastRow() report 1002
+       and pushes every appended sign-up below the blank region. Type
+       TRUE or FALSE by hand instead; truthy_ is lenient about it. */
     sh.getRange("D2:D").setDataValidation(
         SpreadsheetApp.newDataValidation().requireValueInList(ACTIVITY_IDS, true).build()
     );
-    sh.getRange("F2:F").insertCheckboxes();
 
     sh.setColumnWidth(1, 160);
     sh.setColumnWidth(2, 170);
     sh.setColumnWidth(7, 340);
+}
+
+/* Run once from the editor (Run > repair) to clean up a sheet whose rows
+   were appended below a block of stray checkbox values. Keeps every real
+   sign-up, strips the artefacts, and rewrites the rows at the top. */
+function repair() {
+    const sh = sheet_();
+    const width = HEADERS.length;
+    const all = sh.getRange(1, 1, sh.getMaxRows(), width).getValues();
+    const keep = all.slice(1).filter(r => String(r[1]).trim());
+
+    sh.clearContents();
+    sh.clearDataValidations();
+
+    sh.getRange(1, 1, 1, width).setValues([HEADERS]).setFontWeight("bold");
+    if (keep.length) sh.getRange(2, 1, keep.length, width).setValues(keep);
+    sh.setFrozenRows(1);
+    sh.getRange("D2:D").setDataValidation(
+        SpreadsheetApp.newDataValidation().requireValueInList(ACTIVITY_IDS, true).build()
+    );
+
+    Logger.log("Kept %s sign-up(s). Data now ends at row %s.", keep.length, lastDataRow_());
 }
 
 /* Run this from the editor (Run > whichSheet) when rows seem to be
@@ -64,10 +88,24 @@ function json_(obj) {
         .setMimeType(ContentService.MimeType.JSON);
 }
 
-function rows_() {
+/* Last row holding an actual sign-up, judged only by the key column.
+   getLastRow() counts any cell with a value, including stray formatting
+   artefacts in other columns, so it cannot be trusted to place a write. */
+function lastDataRow_() {
     const sh = sheet_();
-    if (sh.getLastRow() < 2) return [];
-    return sh.getRange(2, 1, sh.getLastRow() - 1, HEADERS.length).getValues();
+    const max = sh.getMaxRows();
+    if (max < 2) return 1;
+    const keys = sh.getRange(2, 2, max - 1, 1).getValues();
+    for (let i = keys.length - 1; i >= 0; i--) {
+        if (String(keys[i][0]).trim()) return i + 2;
+    }
+    return 1;
+}
+
+function rows_() {
+    const last = lastDataRow_();
+    if (last < 2) return [];
+    return sheet_().getRange(2, 1, last - 1, HEADERS.length).getValues();
 }
 
 /* a checkbox gives a boolean, a hand-typed cell gives a string */
@@ -139,9 +177,12 @@ function upsert_(body) {
     ];
 
     const sh = sheet_();
-    const at = findRow_(key, body.name);
-    if (at) sh.getRange(at, 1, 1, HEADERS.length).setValues([row]);
-    else sh.appendRow(row);
+    /* not appendRow: it lands after the last cell with any value at all,
+       which strands sign-ups a thousand rows down if another column has
+       whole-column formatting */
+    const at = findRow_(key, body.name) || lastDataRow_() + 1;
+    if (at > sh.getMaxRows()) sh.insertRowsAfter(sh.getMaxRows(), 50);
+    sh.getRange(at, 1, 1, HEADERS.length).setValues([row]);
 }
 
 function remove_(body) {
