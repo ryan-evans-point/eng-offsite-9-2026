@@ -47,14 +47,27 @@ function setup() {
 function repair() {
     const sh = sheet_();
     const width = HEADERS.length;
-    const all = sh.getRange(1, 1, sh.getMaxRows(), width).getValues();
+    const max = sh.getMaxRows();
+
+    const all = sh.getRange(1, 1, max, width).getValues();
     const keep = all.slice(1).filter(r => String(r[1]).trim());
+    /* log the rescued rows before touching anything, so that a failure
+       further down is recoverable from the execution log */
+    Logger.log("Recovered %s sign-up(s): %s", keep.length, JSON.stringify(keep));
 
-    sh.clearContents();
-    sh.clearDataValidations();
-
+    /* rewrite before clearing, never the other way round */
     sh.getRange(1, 1, 1, width).setValues([HEADERS]).setFontWeight("bold");
     if (keep.length) sh.getRange(2, 1, keep.length, width).setValues(keep);
+
+    /* everything below the real rows gets wiped, values and the stray
+       checkbox validations alike. clearDataValidations lives on Range. */
+    const firstFree = keep.length + 2;
+    if (firstFree <= max) {
+        sh.getRange(firstFree, 1, max - firstFree + 1, width)
+            .clearContent()
+            .clearDataValidations();
+    }
+
     sh.setFrozenRows(1);
     sh.getRange("D2:D").setDataValidation(
         SpreadsheetApp.newDataValidation().requireValueInList(ACTIVITY_IDS, true).build()
