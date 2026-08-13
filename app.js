@@ -32,7 +32,7 @@ const ACTIVITIES = [
     {
         id: "hang", n: 1, theme: "t-pool", icon: "sun", accent: "#06B6D4",
         title: "Poolside Chill & Unwind",
-        tag: "You just got to the California coast. Yeah, you're gonna chill.",
+        tag: '"I just got to the California coast, so yeah... I’m gonna chill." — You.',
         badge: { text: "Low intensity · chill", icon: "sun" },
         chill: 4, chillLabel: "horizontal",
         tags: ["chill"], cost: 0, drive: "0 min · you're already here",
@@ -40,11 +40,10 @@ const ACTIVITIES = [
         notes: [
             "This one stays at the hotel. Pool, lawn chairs, palm trees, and absolutely nowhere to be.",
             "To be clear, the ocean is not at your feet here. Seacliff State Beach is a 15–20 minute walk downhill if you want actual sand.",
-            "That walk goes right past Marianne's Ice Cream, which is not a coincidence anyone should fight.",
+            "That walk goes right past Marianne's Ice Cream. Just thought you should know.",
             "Hot tub, and a bar and kitchen on site. Nothing about this requires a car or a plan.",
             "We'll mostly be by the pool. Wander off and nobody will notice.",
-            "The single most glorious nap you will have all year. Bring the book you keep meaning to read, or don't.",
-            "Also the fallback if the marine layer refuses to lift."
+            "Or skip all that and have the single most glorious nap you will have all year."
         ],
         links: [
             ["the beach", "https://www.google.com/maps/search/?api=1&query=Seacliff+State+Beach+Aptos"],
@@ -97,7 +96,7 @@ const ACTIVITIES = [
     {
         id: "beer", n: 2, theme: "t-beer", icon: "beer", accent: "#D97706",
         title: "Beer Thirty & Cornhole",
-        tag: "Craft bottle shop and beer garden. Cornhole bracket included.",
+        tag: "A slow lunch, a walk on the beach, then a cornhole bracket in a craft beer garden.",
         badge: { text: "Bracket play" },
         chill: 12, chillLabel: "beer in hand",
         tags: ["dine"], cost: 2, drive: "4 min drive",
@@ -105,10 +104,9 @@ const ACTIVITIES = [
         notes: [
             "Cornhole bracket, teams drawn at random. Trophy TBD, glory guaranteed.",
             "Does Point have an official cornhole champion? No. Does it need one? Also no. Could it be you? Yes.",
-            "Ping pong and darts if brackets aren't your thing.",
-            "A wall of taps and a fridge full of bottles. Choice paralysis is part of the experience.",
-            "Outside food is fine, and Carpo's delivers to the back window. Lunch solved without anyone moving.",
-            "Dinner heads back toward Aptos afterwards, so settle who's driving before the second pour.",
+            "Loose lunch first. Eat at the hotel, or walk over to Sno-White, the burger shack with the landmark sign, on the way down to the beach.",
+            "Then an hour on the sand at Seacliff before we head over. Sit that out and keep your chair if you'd rather.",
+            "Ping pong and darts if brackets aren't your thing, plus a wall of taps and a fridge of bottles. Choice paralysis is part of the experience.",
             "Cider, wine, and non-alcoholic options too. Nothing here requires drinking beer."
         ],
         links: [
@@ -130,10 +128,10 @@ const ACTIVITIES = [
                     url: "https://www.google.com/maps/search/?api=1&query=Zameen+Mediterranean+Aptos"
                 },
                 {
-                    name: "Carpo's",
-                    desc: "40-year counter joint. Fish and chips, blackberry shakes.",
-                    meta: "delivers to Beer Thirty's back window",
-                    url: "https://www.google.com/maps/search/?api=1&query=Carpos+Restaurant+Soquel"
+                    name: "Sno-White Drive-In",
+                    desc: "Retro burger and soft-serve stand under a landmark sign. The walk is half the point.",
+                    meta: "8 min walk up State Park Dr",
+                    url: "https://www.google.com/maps/search/?api=1&query=Sno-White+Drive+In+Aptos"
                 }
             ],
             dinner: [
@@ -144,16 +142,16 @@ const ACTIVITIES = [
                     url: "https://www.google.com/maps/search/?api=1&query=Aptos+St+BBQ+Aptos"
                 },
                 {
-                    name: "Kaito",
-                    desc: "Ten kinds of ramen, sushi and poke. Chef-owned, and the light option here.",
-                    meta: "5 min · dinner 4 to 8",
-                    url: "https://www.google.com/maps/search/?api=1&query=Kaito+Ramen+Sushi+Capitola"
+                    name: "Parish Publick House",
+                    desc: "Village pub. Burgers, wings, and no trouble seating a big table.",
+                    meta: "same block as the BBQ · open till 10",
+                    url: "https://www.google.com/maps/search/?api=1&query=Parish+Publick+House+Aptos"
                 },
                 {
-                    name: "Tortilla Flats",
-                    desc: "Molés, seafood burritos, award-winning margaritas.",
-                    meta: "5 min · open till 9",
-                    url: "https://www.google.com/maps/search/?api=1&query=Tortilla+Flats+Soquel"
+                    name: "Showtime Pizzeria",
+                    desc: "Pizza after cornhole is the natural order of things. No reservations, so call a big order ahead.",
+                    meta: "2 min from the hotel · till 8pm",
+                    url: "https://www.google.com/maps/search/?api=1&query=Showtime+Pizzeria+Aptos"
                 }
             ]
         },
@@ -209,16 +207,16 @@ const ACTIVITIES = [
                     url: "https://www.google.com/maps/search/?api=1&query=Zeldas+on+the+Beach+Capitola"
                 },
                 {
-                    name: "Barceloneta",
-                    desc: "Spanish tapas and enormous paellas downtown. Built for a table that wants to share everything.",
-                    meta: "12 min · from 5pm · call ahead for a group",
-                    url: "https://www.google.com/maps/search/?api=1&query=Barceloneta+Santa+Cruz"
+                    name: "The Sand Bar",
+                    desc: "Deck straight out over the water, two doors down. Fish tacos, chowder, live music most nights.",
+                    meta: "in the village · open till 11:30",
+                    url: "https://www.google.com/maps/search/?api=1&query=The+Sand+Bar+Capitola"
                 },
                 {
-                    name: "El Palomar",
-                    desc: "Mexican under the painted ceiling of a 1930s hotel lobby, tortillas pressed by hand at a cart.",
-                    meta: "12 min · downtown · till 9pm",
-                    url: "https://www.google.com/maps/search/?api=1&query=El+Palomar+Santa+Cruz"
+                    name: "Parish Publick House",
+                    desc: "The village pub back in Aptos. Take this one if the group wants to head back and reset before dinner.",
+                    meta: "back by the hotel · open till 10",
+                    url: "https://www.google.com/maps/search/?api=1&query=Parish+Publick+House+Aptos"
                 }
             ]
         },
@@ -302,10 +300,9 @@ const ACTIVITIES = [
             "The locals' pick. You cover more ground and see more of the area than anyone else.",
             "Ocean on one side the whole way, and you can stop whenever something looks worth stopping for.",
             "This road on a bike beats this road in a car. It isn't close.",
-            "Try to keep up with Michael.",
             "E-bikes available if you'd rather not earn the hills.",
             "Reserve early. Small shop, and a weekday group of eight is a real ask.",
-            "Bikes are due back by 6, or it's $150 plus another day. Dinner starts after that.",
+            "Bikes are due back by 6, and dinner starts after that.",
             "Helmets included. Wear something you don't mind sweating in."
         ],
         links: [["bike shop", "https://www.google.com/maps/search/?api=1&query=Epicenter+Cycling+Aptos"]],
@@ -362,12 +359,11 @@ const ACTIVITIES = [
         tags: ["active"], cost: 0, drive: "5 min drive",
         pin: [677, 84], labelDx: -176, labelDy: -12,
         notes: [
-            "The last tree most of us dealt with was a dependency tree. These ones are taller.",
-            "Redwoods, ferns, a creek, and about ten degrees cooler than everywhere else.",
-            "The 1989 Loma Prieta earthquake started under this forest. The epicenter marker is further in than we're going.",
+            "Fun fact: trees are not only a type of data structure, but a plant that grows out of the ground. For the engineers who need some time in nature, you'll see some of the biggest trees on earth.",
             "Nothing crazy. Steady pace, nobody racing, stop whenever you feel like it.",
-            "Bring cash. Parking is a self-pay envelope, no attendant.",
-            "No bookings, no rentals, nothing to buy. Just show up in decent shoes."
+            "No bookings, no rentals, nothing to sign up for. Just show up in decent shoes and bring a water bottle.",
+            "Redwoods, ferns, a creek, and about ten degrees cooler than everywhere else.",
+            "Parking is $8 a car, cash, into a self-pay envelope with no attendant. So, technically not free — but you make tech money, you'll be fine."
         ],
         links: [
             ["park info", "https://www.parks.ca.gov/?page_id=666"],
