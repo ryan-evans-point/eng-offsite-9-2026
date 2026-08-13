@@ -739,6 +739,204 @@ ul.notes li::before {
     height: 12px
 }
 
+/* two faces of the same card. The front keeps its place in the flow even
+   when hidden, so flipping never changes the card's height. */
+/* both faces share one grid cell, so the card is always as tall as the taller
+   of the two and nothing gets clipped on the flip */
+.faces {
+    display: grid;
+}
+
+.face {
+    grid-area: 1 / 1;
+    transition: opacity .26s, transform .3s var(--spring), visibility .26s
+}
+
+.face.front {
+    display: flex;
+    flex-direction: column;
+}
+
+.face.back {
+    align-self: start;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(18px);
+}
+
+.card.flipped .face.front {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-18px);
+}
+
+.card.flipped .face.back {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+}
+
+/* the wrapper eats the leftover column space so the button hugs the card's
+   footer no matter which face is taller */
+.flipto-wrap {
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+.flipto {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255, 255, 255, .55);
+    border: 1px dashed currentColor;
+    border-radius: 11px;
+    cursor: pointer;
+    transition: transform .3s var(--spring), background .18s;
+}
+
+.flipto:hover {
+    transform: translateY(-2px);
+    background: #fff;
+}
+
+.flipto svg {
+    width: 15px;
+    height: 15px;
+}
+
+.food-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--card-line);
+}
+
+.food-top b {
+    display: block;
+    font-family: Fraunces, Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--card-ink);
+}
+
+.food-top span {
+    font-size: .8rem;
+    color: var(--card-ink-2);
+}
+
+.unflip {
+    flex: 0 0 auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 99px;
+    padding: 6px 13px;
+    cursor: pointer;
+    transition: transform .3s var(--spring), background .18s;
+}
+
+.unflip::before {
+    content: "← "
+}
+
+.unflip:hover {
+    transform: translateX(-2px);
+    background: rgba(255, 255, 255, .7);
+}
+
+.meal+.meal {
+    margin-top: 14px
+}
+
+.meal-h {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.meal-h i {
+    font-style: normal;
+    letter-spacing: 0;
+    color: var(--card-ink-2);
+    opacity: .7;
+}
+
+.meal-h::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--card-line);
+}
+
+/* two-up on a wide card, one-up on a narrow one, without a breakpoint */
+.spots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+}
+
+/* the tiles always sit on their own near-white surface, so their ink is fixed
+   rather than themed — otherwise the dark cards render pale-on-pale */
+.spot {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 9px 11px 10px;
+    border: 1px solid var(--card-line);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .82);
+    text-decoration: none;
+    color: inherit;
+    transition: transform .3s var(--spring), border-color .18s, background .18s;
+}
+
+.spot:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: #fff;
+}
+
+.spot b {
+    font-size: .88rem;
+    font-weight: 600;
+    color: #1F2937;
+}
+
+.spot .what {
+    font-size: .8rem;
+    line-height: 1.4;
+    color: #4B5563;
+}
+
+.spot .meta {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #8A8F98;
+}
+
 /* footer of card */
 .card-foot {
     margin-top: auto;
@@ -845,19 +1043,6 @@ ul.notes li::before {
 .sep {
     opacity: .35;
     margin: 0 2px
-}
-
-.rnotes {
-    margin-top: 8px;
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    color: var(--card-ink-2);
-    line-height: 1.8
-}
-
-.rnotes span {
-    display: block;
-    font-style: italic
 }
 
 /* "you're in" flag */
@@ -1299,6 +1484,24 @@ ul.notes li::before {
 
 .t-forest .links a {
     opacity: .9
+}
+
+/* the food face: a translucent-white button or hairline disappears on this
+   card, so both get a dark-green treatment instead */
+.t-forest .flipto {
+    background: rgba(15, 61, 34, .55)
+}
+
+.t-forest .flipto:hover {
+    background: rgba(15, 61, 34, .85)
+}
+
+.t-forest .spot {
+    border-color: rgba(20, 83, 45, .2)
+}
+
+.t-forest .spot:hover {
+    border-color: #047857
 }
 
 .t-forest::after {
@@ -1792,6 +1995,12 @@ ul.notes li::before {
     color: var(--ink-3);
     margin: 6px 0 0;
     padding-left: 25px
+}
+
+/* the indent above lines a hint up under a checkbox label; hints that
+   follow a full-width field sit flush instead */
+.hint.flush {
+    padding-left: 0
 }
 
 .moving {

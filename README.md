@@ -70,8 +70,11 @@ Open the sheet and edit cells. The page picks changes up on the next load.
 - **Remove someone** — delete the row.
 - **Fix a typo in a name** — edit the `name` cell. Leave `key` alone; the
   script falls back to matching on name, so they won't get a duplicate row.
-- **Anonymous sign-ups** have an empty `name` and a `key` starting with `a:`.
-  They still count toward the headcount.
+- **Notes** in the `note` column are for you and the group leads. The page
+  never renders them, so nobody's note shows up under a card.
+
+Every sign-up carries a name — there is no anonymous option. A row left
+without one still counts toward the headcount and renders as "someone".
 
 Valid `activity` values are the ids, not the titles: `hang`, `beer`,
 `capitola`, `disc`, `bike`, `hike`. Rows with an unrecognised activity are
@@ -81,7 +84,9 @@ ignored rather than breaking the page.
 
 Everything readable lives in `app.js`:
 
-- `ACTIVITIES` — titles, taglines, notes, links, costs, drive times, map pins.
+- `ACTIVITIES` — titles, taglines, notes, links, costs, drive times, map pins,
+  and `food`, the lunch and dinner options behind each card's flip. `cost` is
+  the activity's own out-of-pocket price, 0 to 3; the food carries none.
 - `SCHEDULE` — the Wednesday timeline. `tbd: true` greys a row out.
 - `DEADLINE` — one string, used everywhere the date appears.
 - `HEADCOUNT` — the denominator on the RSVP counter.
