@@ -1603,6 +1603,26 @@ ul.notes li::before {
     fill: var(--ink)
 }
 
+.pin .sub {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px;
+    letter-spacing: .12em;
+    fill: var(--ink-2)
+}
+
+.pin .base-ring {
+    fill: none;
+    stroke-width: 1.2;
+    stroke-dasharray: 3 4;
+    opacity: .5;
+    transition: opacity .2s;
+}
+
+.pin:hover .base-ring,
+.pin.lit .base-ring {
+    opacity: 1
+}
+
 .legend {
     display: flex;
     flex-wrap: wrap;

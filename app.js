@@ -35,8 +35,11 @@ const ACTIVITIES = [
         tag: '"I just got to the California coast, so yeah... I’m gonna chill." — You.',
         badge: { text: "Low intensity · chill", icon: "sun" },
         chill: 4, chillLabel: "horizontal",
-        tags: ["chill"], cost: 0, drive: "0 min · you're already here",
-        pin: [668, 412], labelDx: 14, labelDy: 14,
+        tags: ["chill"], cost: 0, drive: "0 min",
+        /* the hotel is this pin, so it carries the basecamp ring and sub-label.
+           Label runs leftward — anchored right it would spill off the chart. */
+        pin: [636, 380], labelDx: -22, labelDy: -34, labelAnchor: "end",
+        base: true, sub: "BASECAMP · SEACLIFF INN",
         notes: [
             "This one stays at the hotel. Pool, lawn chairs, palm trees, and absolutely nowhere to be.",
             "To be clear, the ocean is not at your feet here. Seacliff State Beach is a 15–20 minute walk downhill if you want actual sand.",
@@ -91,7 +94,7 @@ const ACTIVITIES = [
                 }
             ]
         },
-        lead: "You're on your own. You got this."
+        lead: "Lead: open"
     },
     {
         id: "beer", n: 2, theme: "t-beer", icon: "beer", accent: "#D97706",
@@ -99,7 +102,7 @@ const ACTIVITIES = [
         tag: "A slow lunch, a walk on the beach, then a cornhole bracket in a craft beer garden.",
         badge: { text: "Bracket play" },
         chill: 12, chillLabel: "beer in hand",
-        tags: ["dine"], cost: 2, drive: "4 min drive",
+        tags: ["dine"], cost: 2, drive: "5 min drive",
         pin: [341, 345], labelDx: -108, labelDy: -12,
         notes: [
             "Cornhole bracket, teams drawn at random. Trophy TBD, glory guaranteed.",
@@ -234,7 +237,7 @@ const ACTIVITIES = [
         notes: [
             "One of the most famous courses in the country, and it happens to be twenty minutes away.",
             "No golf carts, so there's a bit of a walk either way. Difference is you get to throw something.",
-            "Front 9 only. The full 27 is a death march.",
+            "Front 9 only. The full 27 is a grind.",
             "Nobody here is good at this. That is genuinely the best part.",
             "Discs: we'll buy them on Amazon, about $7 a head. Do a quick Venmo and we'll figure it out. Yours to keep, assuming you don't lose it in a ravine.",
             "$2 parking. Bring water and shoes you can walk in."
@@ -295,7 +298,8 @@ const ACTIVITIES = [
         route: "Coast route · ocean views the whole way",
         chill: 40, chillLabel: "easy pedaling",
         tags: ["active"], cost: 3, drive: "walkable, no drive",
-        pin: [604, 352], labelDx: -96, labelDy: -12,
+        /* label runs leftward — this pin sits too far right for a right-hand label */
+        pin: [716, 330], labelDx: -22, labelDy: -26, labelAnchor: "end",
         notes: [
             "The locals' pick. You cover more ground and see more of the area than anyone else.",
             "Ocean on one side the whole way, and you can stop whenever something looks worth stopping for.",
@@ -353,20 +357,22 @@ const ACTIVITIES = [
     {
         id: "hike", n: 6, theme: "t-forest", icon: "trees", accent: "#14532D",
         title: "Forest of Nisene Marks",
-        tag: "Redwoods, real trail, five minutes from the hotel.",
+        tag: "Redwoods, real trail, ten minutes from the hotel.",
         badge: { text: "[ 3.5 MI · SHADED TRAIL ]" },
         chill: 46, chillLabel: "mild hike",
-        tags: ["active"], cost: 0, drive: "5 min drive",
+        tags: ["active"], cost: 0, drive: "10 min drive",
         pin: [677, 84], labelDx: -176, labelDy: -12,
         notes: [
-            "Fun fact: trees are not only a type of data structure, but a plant that grows out of the ground. For the engineers who need some time in nature, you'll see some of the biggest trees on earth.",
+            "Trees: not the data structure, the plant. Some of the biggest on earth, ten minutes from the hotel.",
             "Nothing crazy. Steady pace, nobody racing, stop whenever you feel like it.",
             "No bookings, no rentals, nothing to sign up for. Just show up in decent shoes and bring a water bottle.",
             "Redwoods, ferns, a creek, and about ten degrees cooler than everywhere else.",
-            "Parking is $8 a car, cash, into a self-pay envelope with no attendant. So, technically not free — but you make tech money, you'll be fine."
+            "Parking is $8 a car, cash, into a self-pay envelope with no attendant. So, technically not free — but close enough.",
+            "Which trail we actually do is TBD. The park has plenty to pick from, so we'll settle it closer to the day."
         ],
         links: [
             ["park info", "https://www.parks.ca.gov/?page_id=666"],
+            ["trails", "https://www.alltrails.com/parks/us/california/the-forest-of-nisene-marks-state-park"],
             ["map", "https://www.google.com/maps/search/?api=1&query=Forest+of+Nisene+Marks+State+Park"]
         ],
         food: {
@@ -437,7 +443,7 @@ const SCHEDULE = [
     }
 ];
 
-const HEADCOUNT = 50;
+const HEADCOUNT = 65;
 /* change this one string to move the deadline everywhere it appears */
 const DEADLINE = "Fri 25 Sept";
 /* the Apps Script /exec URL from Code.gs. Empty runs the page
@@ -691,14 +697,14 @@ function rosterHTML(id) {
         return s + "</span>";
     }).join('<span class="sep">·</span>');
 }
+/* No lead line here — the chips row above already carries it, and the
+   roster stars anyone who offered to lead. */
 function tallyHTML(id) {
     const list = signups[id] || [];
     const seats = list.reduce((s, p) => s + (p.seats || 0), 0);
-    const leads = list.filter(p => p.canLead).length;
     return [
         list.length + (list.length === 1 ? " person" : " people"),
-        seats + (seats === 1 ? " seat offered" : " seats offered"),
-        leads ? leads + " willing to lead" : "no lead yet"
+        seats + (seats === 1 ? " seat offered" : " seats offered")
     ].join(" · ");
 }
 
@@ -838,12 +844,19 @@ function buildPins() {
         grp.setAttribute("role", "link");
         grp.setAttribute("aria-label", a.title);
         grp.id = "pin-" + a.id;
+        const anchor = a.labelAnchor ? ' text-anchor="' + a.labelAnchor + '"' : "";
+        const lx = x + a.labelDx;
         grp.innerHTML =
             '<circle class="halo" cx="' + x + '" cy="' + y + '" r="22" fill="currentColor"/>' +
+            (a.base ? '<circle class="base-ring" cx="' + x + '" cy="' + y + '" r="18" stroke="currentColor"/>' : "") +
             '<circle class="head" cx="' + x + '" cy="' + y + '" r="12" stroke="currentColor"/>' +
             '<text class="num" x="' + x + '" y="' + (y + 4.5) + '">' + a.n + "</text>" +
-            '<text class="lbl" x="' + (x + a.labelDx) + '" y="' + (y + a.labelDy) + '">' +
-            esc(a.title.toUpperCase()) + "</text>";
+            '<text class="lbl" x="' + lx + '" y="' + (y + a.labelDy) + '"' + anchor + ">" +
+            esc(a.title.toUpperCase()) + "</text>" +
+            (a.sub
+                ? '<text class="sub" x="' + lx + '" y="' + (y + a.labelDy + 14) + '"' + anchor + ">" +
+                esc(a.sub) + "</text>"
+                : "");
         const go = () => {
             applyFilter("all");
             $("card-" + a.id).scrollIntoView({ behavior: "smooth", block: "center" });
@@ -988,6 +1001,7 @@ async function leave() {
 
 /* ---------------- boot ---------------- */
 $("deadlineChip").textContent = DEADLINE;
+$("rsvpTotal").textContent = HEADCOUNT;
 buildCards();
 buildFilters();
 buildSchedule();

@@ -40,7 +40,8 @@
 
             <div class="bar-right">
                 <div class="rsvp" title="Headcount across all six options">
-                    <div class="rsvp-line"><span><b id="rsvpCount">0</b> of 50 RSVP'd</span><span id="rsvpLeft"></span>
+                    <div class="rsvp-line"><span><b id="rsvpCount">0</b> of <span id="rsvpTotal">0</span> RSVP'd</span><span
+                            id="rsvpLeft"></span>
                     </div>
                     <div class="rsvp-track" id="rsvpTrack"></div>
                 </div>
@@ -107,8 +108,7 @@
             <p class="confession">
                 Sure, this could have been a Slack poll.<br>
                 But we're engineers. Sometimes we over-engineer.<br>
-                And Claude built it anyway.<br>
-                So here is a website. With a map.
+                So I built a website with Claude. Map included.
             </p>
 
         </section>
@@ -185,7 +185,7 @@
                     <text x="286" y="505" font-family="Fraunces,Georgia,serif" font-style="italic" font-size="19"
                         letter-spacing="7" fill="#7FA3A0">MONTEREY BAY</text>
                     <text x="392" y="452" font-family="Fraunces,Georgia,serif" font-style="italic" font-size="13"
-                        fill="#A8306A">tide's in — that's why there's no beach option</text>
+                        fill="#A8306A">tide's in — that's why there's no tide pool option</text>
 
                     <g stroke="#6B7280" fill="#6B7280">
                         <line x1="762" y1="500" x2="762" y2="466" stroke-width="1.2" />
@@ -202,16 +202,11 @@
                     <text x="40" y="518" font-family="IBM Plex Mono,monospace" font-size="10.5" letter-spacing="1"
                         fill="#6B7280">0 ——— 2 mi (roughly)</text>
 
-                    <g>
-                        <rect x="633" y="376" width="14" height="14" rx="3" fill="#1F2937" />
-                        <text x="654" y="388" font-family="IBM Plex Mono,monospace" font-size="11.5" letter-spacing=".5"
-                            fill="#1F2937">BASE / HOTEL</text>
-                    </g>
-
                     <g id="pins"></g>
                 </svg>
                 <div class="legend">
                     <span>◆ Numbered by vibe — 1 is the chillest, 6 will make you sweat</span>
+                    <span>◆ The ringed pin is basecamp — poolside is the hotel, so it never leaves</span>
                     <span>◆ Cost is what the afternoon runs you: $ under 15 · $$ 15–40 · $$$ 40+</span>
                 </div>
             </div>

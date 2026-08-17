@@ -1,6 +1,6 @@
 # Point Engineering Offsite 2026 — afternoon sign-ups
 
-A single static page where 50 people put their name on one of six Wednesday
+A single static page where 65 people put their name on one of six Wednesday
 afternoon activities. Sign-ups are stored as rows in a Google Sheet, so you
 can open the sheet and fix anything by hand without losing data.
 
