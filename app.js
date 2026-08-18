@@ -163,19 +163,19 @@ const ACTIVITIES = [
     {
         id: "capitola", n: 3, theme: "t-capitola", icon: "coffee", accent: "#FB923C",
         title: "Capitola Village Walk",
-        tag: "Coffee, sand, and a village you can cross in ten minutes. No itinerary, by design.",
+        tag: "Coffee, a long wharf, and a village you can cross in ten minutes. No itinerary, by design.",
         badge: { text: "Pastel cottages & beach", icon: "coffee" },
         chill: 22, chillLabel: "flat and easy",
         tags: ["chill", "dine"], cost: 1, drive: "10 min drive",
         pin: [363, 407], labelDx: -118, labelDy: 22,
         cottages: ["#FBCFE8", "#FDE68A", "#A5F3FC", "#FDBA74", "#C7D2FE", "#99F6E4", "#FCA5A5"],
         notes: [
-            "Oldest seaside resort town in California, and it looks it. Pastel cottages stacked right up against the sand.",
-            "Coffee at Mr Toots, up the white staircase, balcony hanging out over the water.",
-            "The beach is right there. Walk the sand, put a foot in, argue about how cold it is.",
-            "Split up, regroup, split up again. Coffee people, shop people, wharf people, sit-on-the-sand people.",
-            "There is no plan. That's the plan. Do whatever feels right and meet back at the cars.",
-            "Paid parking and the lots fill. Carpool, and agree on a regroup spot before everyone scatters."
+            "Oldest seaside resort town in California, and it looks it. Pastel cottages stacked against the sand.",
+            "Coffee at Mr Toots, up the white staircase, balcony over the water.",
+            "The wharf runs 855 feet into the bay. Otters, sea lions, mounted scopes. Walk to the end and the village disappears behind you.",
+            "High tide is around lunch and drops all afternoon. Small sand at 1, real sand by 4.",
+            "More than the beach: shops, the Mercantile arcade, live music at BrewTopia from 2.",
+            "Split up, regroup, split up again. There is no plan, that's the plan. Carpool and pick a regroup spot, the lots fill fast."
         ],
         links: [
             ["mr toots", "https://www.google.com/maps/search/?api=1&query=Mr+Toots+Coffeehouse+Capitola"],
@@ -292,18 +292,18 @@ const ACTIVITIES = [
     },
     {
         id: "bike", n: 5, theme: "t-bike", icon: "bike", accent: "#0284C7",
-        title: "Pacific Coast Bike Cruise",
+        title: "Coast or Redwood Ride",
         tag: "Rentals from Epicenter Cycling, a few blocks from the hotel.",
         badge: { text: "E-bikes available" },
-        route: "Coast route · ocean views the whole way",
+        route: "Coast cruise or redwood fire roads",
         chill: 40, chillLabel: "easy pedaling",
         tags: ["active"], cost: 3, drive: "walkable, no drive",
         /* label runs leftward — this pin sits too far right for a right-hand label */
         pin: [716, 330], labelDx: -22, labelDy: -26, labelAnchor: "end",
         notes: [
             "The locals' pick. You cover more ground and see more of the area than anyone else.",
-            "Ocean on one side the whole way, and you can stop whenever something looks worth stopping for.",
-            "This road on a bike beats this road in a car. It isn't close.",
+            "Two ways to go: cruise the coast, or head up into the redwoods on fire roads. Group picks, no need to decide now.",
+            "Coast is flat and open, the forest shaded and bumpier. Either way beats doing it in a car.",
             "E-bikes available if you'd rather not earn the hills.",
             "Reserve early. Small shop, and a weekday group of eight is a real ask.",
             "Bikes are due back by 6, and dinner starts after that.",
