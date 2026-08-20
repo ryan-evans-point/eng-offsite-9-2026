@@ -292,18 +292,18 @@ const ACTIVITIES = [
     },
     {
         id: "bike", n: 5, theme: "t-bike", icon: "bike", accent: "#0284C7",
-        title: "Coast or Redwood Ride",
+        title: "Pacific Coast Bike Cruise",
         tag: "Rentals from Epicenter Cycling, a few blocks from the hotel.",
         badge: { text: "E-bikes available" },
-        route: "Coast cruise or redwood fire roads",
+        route: "Coast route · ocean views the whole way",
         chill: 40, chillLabel: "easy pedaling",
         tags: ["active"], cost: 3, drive: "walkable, no drive",
         /* label runs leftward — this pin sits too far right for a right-hand label */
         pin: [716, 330], labelDx: -22, labelDy: -26, labelAnchor: "end",
         notes: [
             "The locals' pick. You cover more ground and see more of the area than anyone else.",
-            "Two ways to go: cruise the coast, or head up into the redwoods on fire roads. Group picks, no need to decide now.",
-            "Coast is flat and open, the forest shaded and bumpier. Either way beats doing it in a car.",
+            "Ocean on one side the whole way, and you can stop whenever something looks worth stopping for.",
+            "This road on a bike beats this road in a car. It isn't close.",
             "E-bikes available if you'd rather not earn the hills.",
             "Reserve early. Small shop, and a weekday group of eight is a real ask.",
             "Bikes are due back by 6, and dinner starts after that.",
