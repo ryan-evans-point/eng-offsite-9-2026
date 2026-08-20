@@ -544,9 +544,63 @@ function extrasHTML(a) {
 function gaugeHTML(a) {
     return '<div class="gauge">' +
         '<div class="gauge-h"><span>Chill factor</span><b>' + esc(a.chillLabel) + "</b></div>" +
-        '<div class="gauge-track"><span class="gauge-dot" style="left:' + a.chill + '%"></span></div>' +
+        '<div class="gauge-track" data-home="' + a.chill + '">' +
+        '<span class="gauge-tip" aria-hidden="true"></span>' +
+        '<span class="gauge-dot" style="left:' + a.chill + '%"></span></div>' +
         '<div class="gauge-ends"><span>poolside lounging</span><span>running a marathon</span></div>' +
         "</div>";
+}
+
+/* Easter egg: the dot isn't a real control, but it can be dragged off its mark
+   to read the wider scale, then springs back. Nothing is stored. */
+const CHILL_LADDER = [
+    [0, "cryo-frozen · thaw in 100 years"],
+    [8, "medically induced coma"],
+    [17, "asleep, phone face down"],
+    [26, "poolside lounging"],
+    [35, "strolling out for ice cream"],
+    [44, "a normal person doing normal things"],
+    [53, "hauling coolers uphill"],
+    [62, "running a marathon"],
+    [71, "free soloing el capitan"],
+    [80, "wrestling a grizzly bear"],
+    [89, "outrunning that grizzly, in sand"],
+    [96, "wingsuiting into a volcano"]
+];
+function chillRung(pct) {
+    let label = CHILL_LADDER[0][1];
+    CHILL_LADDER.forEach(r => { if (pct >= r[0]) label = r[1]; });
+    return label;
+}
+function wireChillEgg() {
+    $("grid").addEventListener("pointerdown", e => {
+        const dot = e.target.closest(".gauge-dot");
+        if (!dot) return;
+        const track = dot.parentNode;
+        const tip = track.querySelector(".gauge-tip");
+        e.preventDefault();
+        track.classList.add("dragging");
+        /* capture so the drag survives leaving the 7px-tall track */
+        if (dot.setPointerCapture) dot.setPointerCapture(e.pointerId);
+
+        const move = ev => {
+            const r = track.getBoundingClientRect();
+            const pct = Math.max(0, Math.min(100, ((ev.clientX - r.left) / r.width) * 100));
+            dot.style.left = pct + "%";
+            /* the card clips its overflow, so keep the card away from the edges */
+            tip.style.left = Math.max(20, Math.min(80, pct)) + "%";
+            tip.textContent = chillRung(pct);
+        };
+        const drop = () => {
+            dot.removeEventListener("pointermove", move);
+            track.classList.remove("dragging");
+            dot.style.left = track.dataset.home + "%";
+        };
+        dot.addEventListener("pointermove", move);
+        dot.addEventListener("pointerup", drop, { once: true });
+        dot.addEventListener("pointercancel", drop, { once: true });
+        move(e);
+    });
 }
 
 /* The food list lives on a second face of the card rather than expanding it.
@@ -1003,6 +1057,7 @@ async function leave() {
 $("deadlineChip").textContent = DEADLINE;
 $("rsvpTotal").textContent = HEADCOUNT;
 buildCards();
+wireChillEgg();
 buildFilters();
 buildSchedule();
 buildPins();

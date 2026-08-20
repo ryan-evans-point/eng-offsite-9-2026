@@ -642,6 +642,55 @@ h1 em {
     border: 3px solid #fff;
     transform: translate(-50%, -50%);
     box-shadow: 0 1px 4px rgba(31, 41, 55, .35);
+    cursor: grab;
+    touch-action: none;
+    transition: left .3s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+/* a thumb-sized target over a 15px dot */
+.gauge-dot::before {
+    content: "";
+    position: absolute;
+    inset: -9px;
+}
+
+.gauge-track.dragging .gauge-dot {
+    cursor: grabbing;
+    transition: none;
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+.gauge-tip {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 12px;
+    transform: translateX(-50%);
+    z-index: 2;
+    max-width: 168px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background: #1F2937;
+    color: #F9FAFB;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 9.5px;
+    line-height: 1.45;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(31, 41, 55, .28);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .14s;
+}
+
+.gauge-track.dragging .gauge-tip {
+    opacity: 1
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gauge-dot {
+        transition: none
+    }
 }
 
 .gauge-ends {
